@@ -9,7 +9,6 @@ import { Logger, LoggerInterface } from "../../decorators/Logger";
 import { User } from "../models/User";
 import { UserRepository } from "../repositories/UserRepository";
 import { events } from "../subscribers/events";
-import { HttpError } from "@mardari/routing-controllers";
 import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
@@ -38,16 +37,14 @@ export class UserService {
         const newUser = await this.userRepository.save(user).catch(err => {
             switch (err.code) {
                 case 11000:
-                    const error = new HttpError(
-                        409,
-                        "Email address already registered"
-                    );
-                    return error;
+                    return undefined;
                 default:
                     return err.message;
             }
         });
-        this.eventDispatcher.dispatch(events.user.created, newUser);
+        if (newUser) {
+            this.eventDispatcher.dispatch(events.user.created, newUser);
+        }
         return newUser;
     }
 

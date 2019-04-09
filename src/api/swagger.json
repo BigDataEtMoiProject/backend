@@ -2,16 +2,21 @@
     "openapi": "3.0.0",
     "servers": [],
     "info": {
-        "title": "",
-        "description": "",
-        "version": ""
+        "title": "Big Data & Moi — API",
+        "description": "API de l'application BigDataEtMoi réalisé en NodeJS, Express, TypeScript et MongoDB.",
+        "version": "1.0.0"
     },
-    "tags": [
-        {
+    "tags": [{
             "name": "Info"
         },
         {
             "name": "User"
+        },
+        {
+            "name": "Wifi"
+        },
+        {
+            "name": "Message"
         }
     ],
     "paths": {
@@ -38,31 +43,18 @@
                 "summary": "List all users",
                 "description": "Returns all users",
                 "operationId": "FindAllUsers",
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
+                "security": [{
+                    "basicAuth": []
+                }],
                 "responses": {
                     "200": {
                         "description": "ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/User"
-                                            }
-                                        }
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
                                     }
                                 }
                             }
@@ -77,32 +69,22 @@
                 "summary": "Create new user",
                 "description": "",
                 "operationId": "CreateUser",
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "created",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/User"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/User"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "bad request, body not valid"
+                    },
+                    "409": {
+                        "description": "email address already registered"
                     }
                 },
                 "requestBody": {
@@ -118,44 +100,32 @@
                 "summary": "Get user",
                 "description": "Returns the given user",
                 "operationId": "FindUser",
-                "security": [
-                    {
-                        "basicAuth": []
+                "security": [{
+                    "basicAuth": []
+                }],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of user to return",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
                     }
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of user to return",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/User"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/User"
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "user not found"
                     }
                 }
             },
@@ -166,44 +136,35 @@
                 "summary": "Update user",
                 "description": "Updates the given user",
                 "operationId": "UpdateUser",
-                "security": [
-                    {
-                        "basicAuth": []
+                "security": [{
+                    "basicAuth": []
+                }],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of user to update",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
                     }
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of user to update",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/User"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/User"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "bad request, body not valid"
+                    },
+                    "404": {
+                        "description": "user not found"
                     }
                 },
                 "requestBody": {
@@ -217,42 +178,85 @@
                 "summary": "Delete user",
                 "description": "Removes the given user",
                 "operationId": "DeleteUser",
-                "security": [
-                    {
-                        "basicAuth": []
+                "security": [{
+                    "basicAuth": []
+                }],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "ID of user to delete",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
                     }
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of user to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "ok"
                     }
+                }
+            }
+        },
+        "/wifi": {
+            "post": {
+                "tags": [
+                    "Wifi"
                 ],
+                "summary": "Add wifi to user which post the request",
+                "description": "Create wifi",
+                "operationId": "CreateWifi",
+                "security": [{
+                    "basicAuth": []
+                }],
                 "responses": {
                     "200": {
                         "description": "ok",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/UserWithWifi"
                                 }
                             }
                         }
+                    },
+                    "409": {
+                        "description": "bad request"
                     }
+                },
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewWifi"
+                }
+            }
+        },
+        "/messages": {
+            "post": {
+                "tags": [
+                    "Message"
+                ],
+                "summary": "Add message to user which post the request",
+                "description": "Create message",
+                "operationId": "CreateMessage",
+                "security": [{
+                    "basicAuth": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserWithMessages"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "bad request"
+                    }
+                },
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewMessage"
                 }
             }
         }
@@ -269,6 +273,32 @@
                 },
                 "description": "User object that needs to be added to the database",
                 "required": true
+            },
+            "NewWifi": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/Wifi"
+                            }
+                        }
+                    }
+                },
+                "description": "Wifi array that needs to be added to the user",
+                "required": true
+            },
+            "NewMessage": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/Message"
+                            }
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -295,18 +325,94 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uri"
                     },
                     "email": {
                         "type": "string"
                     },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
+                    "password": {
+                        "type": "string"
                     },
-                    "createdAt": {
+                    "wifiList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Wifi"
+                        }
+                    },
+                    "messageList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
+                        }
+                    }
+                }
+            },
+            "Wifi": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "ssid": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Message": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserWithWifi": {
+                "title": "UserWithWifi",
+                "type": "object",
+                "properties": {
+                    "id": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "uri"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "wifiList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Wifi"
+                        }
+                    }
+                }
+            },
+            "UserWithMessages": {
+                "title": "UserWithMessages",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "messageList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Message"
+                        }
                     }
                 }
             }

@@ -15,6 +15,7 @@ import { UserNotFoundError } from "../errors/UserNotFoundError";
 import { User } from "../models/User";
 import { UserService } from "../services/UserService";
 import { DeleteResult } from "typeorm";
+import { EmailAlreadyExists } from "../errors/EmailAlreadyExists";
 
 @JsonController("/users")
 export class UserController {
@@ -40,6 +41,7 @@ export class UserController {
     }
 
     @Post()
+    @OnUndefined(EmailAlreadyExists)
     public create(@Body({ required: true }) user: User): Promise<User | Error> {
         return this.userService.create(user);
     }
