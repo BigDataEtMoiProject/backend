@@ -12,6 +12,7 @@ import { events } from "../subscribers/events";
 import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
+import { TimeOnApp } from "../models/TimeOnApp";
 
 @Service()
 export class UserService {
@@ -80,6 +81,21 @@ export class UserService {
         }
 
         user.messageList.push(...messageList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addTimeOnAppList(
+        timeOnAppList: TimeOnApp[],
+        user: User
+    ): Promise<User> {
+        if (user.timeOnAppList === undefined) {
+            user.timeOnAppList = [];
+        }
+
+        user.timeOnAppList.push(...timeOnAppList);
 
         await this.userRepository.save(user);
 
