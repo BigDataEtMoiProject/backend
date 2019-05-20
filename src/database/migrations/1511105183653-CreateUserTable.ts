@@ -2,6 +2,7 @@ import { MigrationInterface, QueryRunner, getMongoManager } from "typeorm";
 import { User } from "../../../src/api/models/User";
 import { Wifi } from "../../../src/api/models/Wifi";
 import { Message } from "../../../src/api/models/Message";
+import { TimeOnApp } from "../../../src/api/models/TimeOnApp";
 
 export class CreateUserTable1511105183653 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
@@ -21,6 +22,12 @@ export class CreateUserTable1511105183653 implements MigrationInterface {
         message.date = "02/04/2019 16:33:54";
 
         user.messageList = [message];
+
+        const timeOnApp = new TimeOnApp();
+        timeOnApp.appName = "Reddit";
+        timeOnApp.datetime = "02/04/2019 16:33:54";
+
+        user.timeOnAppList = [timeOnApp];
 
         return await getMongoManager().save(user);
     }

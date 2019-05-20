@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import { Service } from "typedi";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
@@ -58,6 +59,24 @@ export class UserService {
     public async delete(id: string): Promise<DeleteResult> {
         this.log.info("Delete a user");
         return await this.userRepository.delete(id);
+    }
+
+    public async authenticate(
+        email: string,
+        password: string
+    ): Promise<User | undefined> {
+        console.log(email, password);
+        const user = await this.userRepository.findOne({ email });
+
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+
+            if (match) {
+                return user;
+            }
+        }
+
+        return undefined;
     }
 
     public async addWifiList(wifiList: Wifi[], user: User): Promise<User> {
