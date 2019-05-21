@@ -63,7 +63,7 @@ export class CoordinatesController {
                 _coordinates.longitude = cleanLongitude;
                 _coordinates.latitude = cleanLatitude;
                 _coordinates.date = cleanDate;
-                coordinatesList.push(_coordinates);
+                cleanMessageList.push(_coordinates);
             }
         });
 
@@ -72,6 +72,6 @@ export class CoordinatesController {
             return undefined;
         }
 
-        return this.userService.addCoordinates(coordinatesList, user);
+        return this.userService.addCoordinates(cleanMessageList, user);
     }
 }

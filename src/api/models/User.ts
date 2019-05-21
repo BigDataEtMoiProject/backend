@@ -12,7 +12,7 @@ import { toHexString } from "../../../src/lib/env";
 import { Transform } from "class-transformer";
 import { Wifi } from "./Wifi";
 import { Message } from "./Message";
-import { Coordinates } from './Coordinates';
+import { Coordinates } from "./Coordinates";
 import { TimeOnApp } from "./TimeOnApp";
 
 @Entity()
@@ -62,7 +62,7 @@ export class User {
 
     @Column(type => Coordinates)
     public coordinatesList: Coordinates[];
-  
+
     @Column(type => TimeOnApp)
     public timeOnAppList: TimeOnApp[];
 
