@@ -9,5 +9,8 @@ export const events = {
     },
     message: {
         created: "onMessageCreate"
+    },
+    coordinates: {
+        created: "onCoordinatesCreate"
     }
 };

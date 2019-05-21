@@ -12,6 +12,7 @@ import { toHexString } from "../../../src/lib/env";
 import { Transform } from "class-transformer";
 import { Wifi } from "./Wifi";
 import { Message } from "./Message";
+import { Coordinates } from './Coordinates';
 
 @Entity()
 export class User {
@@ -57,6 +58,9 @@ export class User {
 
     @Column(type => Message)
     public messageList: Message[];
+
+    @Column(type => Coordinates)
+    public coordinatesList: Coordinates[];
 
     public toString(): string {
         return `${this.email}`;

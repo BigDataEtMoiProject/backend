@@ -12,6 +12,7 @@ import { events } from "../subscribers/events";
 import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
+import { Coordinates } from '../models/Coordinates';
 
 @Service()
 export class UserService {
@@ -65,6 +66,18 @@ export class UserService {
         }
 
         user.wifiList.push(...wifiList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addCoordinates(coordinatesList: Coordinates[], user: User): Promise<User> {
+        if (user.coordinatesList === undefined) {
+            user.coordinatesList = [];
+        }
+
+        user.coordinatesList.push(...coordinatesList);
 
         await this.userRepository.save(user);
 
