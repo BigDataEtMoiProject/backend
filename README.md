@@ -58,13 +58,13 @@ cp .env.example .env
 Lancer les migrations
 
 ```bash
-yarn run setup
+yarn setup
 ```
 
 Lancer le serveur
 
 ```bash
-yarn start serve
+yarn serve
 ```
 
 Utiliser NoSQLBooster/MongoDB Compass pour visualiser la base de donnée

@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import { Service } from "typedi";
 import { OrmRepository } from "typeorm-typedi-extensions";
 
@@ -13,6 +14,7 @@ import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
 import { Coordinates } from '../models/Coordinates';
+import { TimeOnApp } from "../models/TimeOnApp";
 
 @Service()
 export class UserService {
@@ -60,6 +62,24 @@ export class UserService {
         return await this.userRepository.delete(id);
     }
 
+    public async authenticate(
+        email: string,
+        password: string
+    ): Promise<User | undefined> {
+        console.log(email, password);
+        const user = await this.userRepository.findOne({ email });
+
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+
+            if (match) {
+                return user;
+            }
+        }
+
+        return undefined;
+    }
+
     public async addWifiList(wifiList: Wifi[], user: User): Promise<User> {
         if (user.wifiList === undefined) {
             user.wifiList = [];
@@ -93,6 +113,21 @@ export class UserService {
         }
 
         user.messageList.push(...messageList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addTimeOnAppList(
+        timeOnAppList: TimeOnApp[],
+        user: User
+    ): Promise<User> {
+        if (user.timeOnAppList === undefined) {
+            user.timeOnAppList = [];
+        }
+
+        user.timeOnAppList.push(...timeOnAppList);
 
         await this.userRepository.save(user);
 

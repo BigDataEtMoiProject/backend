@@ -13,6 +13,7 @@ import { Transform } from "class-transformer";
 import { Wifi } from "./Wifi";
 import { Message } from "./Message";
 import { Coordinates } from './Coordinates';
+import { TimeOnApp } from "./TimeOnApp";
 
 @Entity()
 export class User {
@@ -61,6 +62,9 @@ export class User {
 
     @Column(type => Coordinates)
     public coordinatesList: Coordinates[];
+  
+    @Column(type => TimeOnApp)
+    public timeOnAppList: TimeOnApp[];
 
     public toString(): string {
         return `${this.email}`;
