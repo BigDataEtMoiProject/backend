@@ -13,7 +13,7 @@ import { events } from "../subscribers/events";
 import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
-import { Coordinates } from '../models/Coordinates';
+import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from '../models/KeyLogger';
 
@@ -93,12 +93,15 @@ export class UserService {
         return user;
     }
 
-    public async addCoordinates(coordinatesList: Coordinates[], user: User): Promise<User> {
+    public async addCoordinates(
+        coordinate: Coordinates,
+        user: User
+    ): Promise<User> {
         if (user.coordinatesList === undefined) {
             user.coordinatesList = [];
         }
 
-        user.coordinatesList.push(...coordinatesList);
+        user.coordinatesList.push(coordinate);
 
         await this.userRepository.save(user);
 
