@@ -17,5 +17,6 @@ export class Coordinates {
     @Column()
     public date: string;
 
+    @Column()
     public city: string;
 }

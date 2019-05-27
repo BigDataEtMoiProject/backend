@@ -15,7 +15,7 @@ import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
 import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
-import { KeyLogger } from '../models/KeyLogger';
+import { KeyLogger } from "../models/KeyLogger";
 
 @Service()
 export class UserService {
@@ -104,6 +104,8 @@ export class UserService {
         user.coordinatesList.push(coordinate);
 
         await this.userRepository.save(user);
+
+        console.log(await this.userRepository.find(user));
 
         return user;
     }
