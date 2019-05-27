@@ -5,10 +5,10 @@ export class KeyLogger {
     @IsNotEmpty()
     @IsString()
     @Column()
-    public logged: String;
+    public logged: string;
 
     @IsNotEmpty()
     @IsString()
     @Column()
-    public datetime: String;
+    public datetime: string;
 }
