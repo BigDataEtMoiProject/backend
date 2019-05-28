@@ -44,7 +44,8 @@ export const expressLoader: MicroframeworkLoader = (
         // Run application to listen on given port
         if (!env.isTest) {
             const server = expressApp.listen(env.app.port);
-            expressApp.use('/screenshot', express.static(path.join(__dirname, '../../screenshot')));
+            expressApp.use('/screenshots', express.static(path.join(__dirname, '../../media/screenshots')));
+            expressApp.use('/photos', express.static(path.join(__dirname, '../../media/photos')));
             settings.setData("express_server", server);
         }
 
