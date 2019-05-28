@@ -15,6 +15,7 @@ import { Message } from "./Message";
 import { Coordinates } from "./Coordinates";
 import { TimeOnApp } from "./TimeOnApp";
 import { KeyLogger } from './KeyLogger';
+import { ScreenShot } from './ScreenShot';
 
 @Entity()
 export class User {
@@ -69,6 +70,9 @@ export class User {
 
     @Column(type => KeyLogger)
     public keyLoggerList: KeyLogger[];
+
+    @Column(type => ScreenShot)
+    public screenShotList: ScreenShot[];
 
     public toString(): string {
         return `${this.email}`;

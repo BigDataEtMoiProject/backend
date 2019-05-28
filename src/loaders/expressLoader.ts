@@ -8,6 +8,8 @@ import { createExpressServer } from "@mardari/routing-controllers";
 import { authorizationChecker } from "../auth/authorizationChecker";
 import { currentUserChecker } from "../auth/currentUserChecker";
 import { env } from "../env";
+import * as path from 'path';
+import express from 'express';
 
 export const expressLoader: MicroframeworkLoader = (
     settings: MicroframeworkSettings | undefined
@@ -42,6 +44,7 @@ export const expressLoader: MicroframeworkLoader = (
         // Run application to listen on given port
         if (!env.isTest) {
             const server = expressApp.listen(env.app.port);
+            expressApp.use('/screenshot', express.static(path.join(__dirname, '../../screenshot')));
             settings.setData("express_server", server);
         }
 

