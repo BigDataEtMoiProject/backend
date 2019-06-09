@@ -30,6 +30,7 @@ export class WifiController {
         wifiList.forEach(wifi => {
             let cleanName = undefined;
             let cleanSSID = undefined;
+            let cleanDate = undefined;
 
             if (wifi.name !== undefined && typeof wifi.name === "string") {
                 cleanName = wifi.name;
@@ -43,10 +44,17 @@ export class WifiController {
                 errors.push(new Error());
             }
 
-            if (cleanName && cleanSSID) {
+            if (wifi.date !== undefined && typeof wifi.date === "string") {
+                cleanDate = wifi.date;
+            } else {
+                errors.push(new Error());
+            }
+
+            if (cleanName && cleanSSID && cleanDate) {
                 const _wifi = new Wifi();
                 _wifi.name = cleanName;
                 _wifi.ssid = cleanSSID;
+                _wifi.date = cleanDate;
                 cleanWifiList.push(_wifi);
             }
         });
