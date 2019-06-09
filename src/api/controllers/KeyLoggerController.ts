@@ -14,7 +14,7 @@ import { User } from "../models/User";
 
 @Authorized()
 @JsonController("/keylogger")
-export class UserController {
+export class KeyLoggerController {
     constructor(private userService: UserService) {}
 
     @Post()

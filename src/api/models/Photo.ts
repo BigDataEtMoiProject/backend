@@ -1,22 +1,22 @@
-import { IsNotEmpty, IsString } from "class-validator";
 import { Column } from "typeorm";
+import { IsNotEmpty, IsString } from "class-validator";
 
-export class Coordinates {
+export class Photo {
     @IsNotEmpty()
     @IsString()
     @Column()
-    public longitude: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @Column()
-    public latitude: string;
+    public img: string;
 
     @IsNotEmpty()
     @IsString()
     @Column()
-    public date: string;
+    public name: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @Column()
+    public datetime: string;
 
     @Column()
-    public city: string;
+    public path: string;
 }
