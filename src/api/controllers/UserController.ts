@@ -8,7 +8,8 @@ import {
     Param,
     Post,
     Put,
-    Req
+    Req,
+    CurrentUser
 } from "@mardari/routing-controllers";
 
 import { UserNotFoundError } from "../errors/UserNotFoundError";
@@ -56,5 +57,13 @@ export class UserController {
     @Delete("/:id")
     public delete(@Param("id") id: string): Promise<DeleteResult> {
         return this.userService.delete(id);
+    }
+
+    @Authorized()
+    @Delete()
+    public deleteFromAuth(
+        @CurrentUser({ required: true }) user: User
+    ): Promise<DeleteResult> {
+        return this.userService.deleteUser(user);
     }
 }

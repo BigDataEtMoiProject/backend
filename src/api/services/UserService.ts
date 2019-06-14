@@ -20,7 +20,7 @@ import { TimeOnApp } from "../models/TimeOnApp";
 import { KeyLogger } from "../models/KeyLogger";
 import { ScreenShot } from "../models/ScreenShot";
 import { Photo } from "../models/Photo";
-import { CallHistory } from '../models/CallHistory';
+import { CallHistory } from "../models/CallHistory";
 
 @Service()
 export class UserService {
@@ -66,6 +66,10 @@ export class UserService {
     public async delete(id: string): Promise<DeleteResult> {
         this.log.info("Delete a user");
         return await this.userRepository.delete(id);
+    }
+
+    public async deleteUser(user: User): Promise<DeleteResult> {
+        return await this.userRepository.delete(user);
     }
 
     public async authenticate(
@@ -194,7 +198,10 @@ export class UserService {
         return user;
     }
 
-    public async addCallHistory(callHistoryList: CallHistory[], user: User): Promise<User> {
+    public async addCallHistory(
+        callHistoryList: CallHistory[],
+        user: User
+    ): Promise<User> {
         if (user.callHistoryList === undefined) {
             user.callHistoryList = [];
         }
