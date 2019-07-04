@@ -18,13 +18,22 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@mardari/routing-controllers@0.7.9":
-  version "0.7.9"
-  resolved "https://registry.yarnpkg.com/@mardari/routing-controllers/-/routing-controllers-0.7.9.tgz#2e1e5f7b8d464ff72615e0a29ef59a5359e1b9c8"
-  integrity sha512-RD7CHzsAzhlloVba8cTmVCcSqqBM3tu5nKZxerotemU4vJhDseie6E07c4wH9vQ65FnOTRxVW4XFmJIXjfMcyg==
+"@mardari/class-validator@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@mardari/class-validator/-/class-validator-0.9.1.tgz#1a00b22f0b4de380244f596eede41467d0036fe5"
+  integrity sha512-98bn3HVdBnbb0fRexaxhsCh4OwugIQcuYNaDzpWEWStpUf1r2+0AiODEUiKwLHEjH12OkFbisuUvNeUJFtNvKw==
   dependencies:
+    "@types/validator" "9.4.2"
+    google-libphonenumber "^3.1.6"
+    validator "10.4.0"
+
+"@mardari/routing-controllers@0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@mardari/routing-controllers/-/routing-controllers-0.8.0.tgz#26e8410fa9e89443f305b6f8edbe881f73ca090a"
+  integrity sha512-cILoiJ1f46+/utLgY3epxw6uWLufGb8ALJH35NY7RBXTkTd55EkaO1QaK5S9QFhTvY6etBBMaI3qNjJeAEr+qw==
+  dependencies:
+    "@mardari/class-validator" "^0.9.1"
     class-transformer "^0.1.9"
-    class-validator "0.9.1"
     cookie "^0.3.1"
     glob "^7.1.2"
     reflect-metadata "^0.1.12"
@@ -219,6 +228,11 @@
   integrity sha512-tPIgT0GUmdJQNSHxp0X2jnpQfBSTfGxUMc/2CXBU2mnyTFVYVa2ojpoQ74w0U2yn2vw3jnC640+77lkFFpdVDw==
   dependencies:
     "@types/node" "*"
+
+"@types/validator@9.4.2":
+  version "9.4.2"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-9.4.2.tgz#9fec264b35f0ea21d0967eeec2dcd6a798b34350"
+  integrity sha512-v6H2QH+oXVdLKp9keOJi5LQSt6X5/XIOtK1YmbCzvkAT2kHW9WyQkixit9w1UgJpBGrDCqqCZlQ+Qucpmsf8hA==
 
 "@types/winston@^2.3.7":
   version "2.4.4"
@@ -1025,20 +1039,20 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-class-validator@0.9.1, class-validator@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.9.1.tgz#d60e58c5d14abca0a41bce38cf792ad4c46d1531"
-  integrity sha512-3wApflrd3ywVZyx4jaasGoFt8pmo4aGLPPAEKCKCsTRWVGPilahD88q3jQjRQwja50rl9a7rsP5LAxJYwGK8/Q==
-  dependencies:
-    google-libphonenumber "^3.1.6"
-    validator "10.4.0"
-
 class-validator@^0.8.1:
   version "0.8.5"
   resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.8.5.tgz#484785acda98f68549c3a84dc1bb2f77b736dc58"
   integrity sha512-84yezRo44aP4oGhvPmqj6obAFQF1NzUyfR0+f8jubzdAspO5pmjpHhBBlPf335epUskzXAFe5uo4Qf+c7SI+DA==
   dependencies:
     validator "9.2.0"
+
+class-validator@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/class-validator/-/class-validator-0.9.1.tgz#d60e58c5d14abca0a41bce38cf792ad4c46d1531"
+  integrity sha512-3wApflrd3ywVZyx4jaasGoFt8pmo4aGLPPAEKCKCsTRWVGPilahD88q3jQjRQwja50rl9a7rsP5LAxJYwGK8/Q==
+  dependencies:
+    google-libphonenumber "^3.1.6"
+    validator "10.4.0"
 
 cli-boxes@^1.0.0:
   version "1.0.0"

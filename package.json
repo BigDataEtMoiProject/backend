@@ -17,7 +17,7 @@
   "repository": "git+ssh://git@github.com/BigDataEtMoiProject/backend.git",
   "homepage": "https://github.com/BigDataEtMoiProject/backend/blob/master/README.md",
   "dependencies": {
-    "@mardari/routing-controllers": "0.7.9",
+    "@mardari/routing-controllers": "0.8.0",
     "@types/mongodb": "^3.1.22",
     "bcrypt": "^3.0.6",
     "chalk": "^2.4.1",
