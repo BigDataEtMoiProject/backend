@@ -52,7 +52,7 @@
     "routing-controllers": "^0.7.6",
     "serve-favicon": "^2.4.5",
     "supertest": "^3.0.0",
-    "swagger-ui-express": "4.0.1",
+    "swagger-ui-express": "4.1.2",
     "ts-node": "7.0.1",
     "tslint": "^5.8.0",
     "typedi": "0.8.0",
