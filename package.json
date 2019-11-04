@@ -18,7 +18,7 @@
   "homepage": "https://github.com/BigDataEtMoiProject/backend/blob/master/README.md",
   "dependencies": {
     "@mardari/routing-controllers": "0.7.9",
-    "@types/mongodb": "^3.1.22",
+    "@types/mongodb": "^3.3.8",
     "bcrypt": "^3.0.6",
     "chalk": "^2.4.1",
     "class-validator": "^0.9.1",
